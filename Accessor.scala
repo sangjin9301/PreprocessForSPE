@@ -53,6 +53,11 @@ class Accessor(path:String) {
     return candle_list.toArray
   }
 
+  // todo
+  def writeData(path:String, data: Array[String]):Unit={
+
+  }
+
 
 
 }

@@ -323,17 +323,98 @@ class IndexMaker {
     }
     return EMA_List3
   }
-  //todo - Have to implements
-  def getTRIX(chart:util.LinkedList[Double]):util.LinkedList[Double]
-  //todo - Have to implements
-  def getTRIX_Sig(chart:util.LinkedList[Double]):util.LinkedList[Double]
 
-  //todo - Have to implements
-  def get_perK(chart:util.LinkedList[Candle]):util.LinkedList[Double]
-  //todo - Have to implements
-  def get_perD(chart:util.LinkedList[Double]):util.LinkedList[Double]
-  //todo - Have to implements
-  def get_Slow_perK(chart:util.LinkedList[Double]):util.LinkedList[Double]
+  def getTRIX(chart:util.LinkedList[Double]):util.LinkedList[Double]={
+    var trix_list = new util.LinkedList[Double]
+    trix_list.add(0)
+    for( i <- 1 to chart.size-1){
+      var preEMA = chart.get(i-1)
+      var EMA = chart.get(i)
+      trix_list.add((EMA-preEMA)/preEMA)
+    }
+    return trix_list
+  }
+
+  def getTRIX_Sig(chart:util.LinkedList[Double]):util.LinkedList[Double]={
+    var sig_list = new util.LinkedList[Double]
+    var sum:Double = 0.
+
+    for( i <- 0 to 8){
+      sum += chart.get(i)
+      sig_list.add(sum/(i+1))
+    }
+
+    for( i <- 9 to chart.size()-1){
+      sum = 0.
+      for( j <- 0 to 8){
+        sum += chart.get(i-j)
+      }
+      sig_list.add(sum/9)
+    }
+    return sig_list
+  }
+
+  def get_perK(chart:util.LinkedList[Candle]):util.LinkedList[Double]={
+    var k_list = new util.LinkedList[Double]
+
+    for(i <- 0 to chart.size-1 ){
+      var today_EndPrice = chart.get(i).getEndPrice
+      var Min = 0.
+      var Max = 0.
+      if(i<13){
+        var list = new util.LinkedList[Double]
+        for( j <- 0 to 12){
+          list.add(chart.get(j).getEndPrice)
+          Min = getMin(list)
+          Max = getMax(list)
+          k_list.add((today_EndPrice-Min)/(Max-Min))
+        }
+      }else{
+        var list_of14day = new util.LinkedList[Double]
+        for( j <- 0 to 12){
+          list_of14day.add(chart.get(i-j).getEndPrice)
+        }
+        Max = getMax(list_of14day)
+        Min = getMin(list_of14day)
+        k_list.add((today_EndPrice-Min)/(Max-Min))
+      }
+    }
+    return k_list
+  }
+
+  def get_perD(chart:util.LinkedList[Double]):util.LinkedList[Double]={
+    var d_list = new util.LinkedList[Double]
+    var sum = 0.
+    for( i <- 0 to 2){
+      sum += chart.get(i)
+      d_list.add(sum/(i+1))
+    }
+    for( i <- 3 to chart.size-1 ){
+      sum = 0.
+      for( j <- 0 to 2){
+        sum += chart.get(i-j)
+      }
+      d_list.add(sum/3)
+    }
+    return d_list
+  }
+
+  def get_Slow_perK(chart:util.LinkedList[Double]):util.LinkedList[Double]={
+    var slowD_list = new util.LinkedList[Double]
+    var sum = 0.
+    for( i <- 0 to 2){
+      sum += chart.get(i)
+      slowD_list.add(sum/(i+1))
+    }
+    for( i <- 3 to chart.size-1 ){
+      sum = 0.
+      for( j <- 0 to 2){
+        sum += chart.get(i-j)
+      }
+      slowD_list.add(sum/3)
+    }
+    return slowD_list
+  }
 
 
 

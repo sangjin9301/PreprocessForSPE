@@ -19,7 +19,7 @@ class IndexMaker {
 
     for( i <- n to chart.size()-1){
       sum = 0.
-      for( j <- 0 to n){
+      for( j <- 0 to n-1){
         sum += chart.get(i-j).getEndPrice
       }
       MA_List.add(sum/n)

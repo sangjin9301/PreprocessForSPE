@@ -73,8 +73,9 @@ class IndexMaker {
     return upper_list
   }
 
-  def getLRL(chart:util.LinkedList[Candle]):(Double,Double)={
+  def getLRL(chart:util.LinkedList[Candle]):util.LinkedList[(Double,Double)]={
     var simpleRegression = new SimpleRegression
+    var lrl_list = new util.LinkedList[(Double,Double)]
     chart.forEach(candle => {
       var date = candle.getTime.toString //ex: 20160515
       var year = date.substring(0,3).toInt
@@ -82,11 +83,28 @@ class IndexMaker {
       var day = date.substring(6,7).toInt
       var ts = new Timestamp(year,month,day,0,0,0,0)
       simpleRegression.addData(ts.getTime,candle.getEndPrice)
+      var w:Double = simpleRegression.getSlope
+      var b:Double = simpleRegression.getIntercept
+      lrl_list.add((w,b))
     })
     var w:Double = simpleRegression.getSlope
     var b:Double = simpleRegression.getIntercept
-    return (w,b) // LRL : ( EndPrice = w *Timestamp + b )
+    return lrl_list // LRL : ( EndPrice = w *Timestamp + b )
   }
+
+  //todo - list return type
+  def getLRS(lrl_list:util.LinkedList[(Double,Double)]):util.LinkedList[(Double,Double)]={
+    var lrs_list = new util.LinkedList[(Double,Double)]
+    lrs_list.add((0,0))
+    for( i <- 1 to lrl_list.size-1 ){
+      var today_lrl_W = lrl_list.get(i)._1
+      var yesterday_lrl_W = lrl_list.get(i-1)._1
+      var today_lrl_bios = lrl_list.get(i)._2
+      var yesterday_lrl_bios = lrl_list.get(i-1)._2
+      lrs_list.add(((today_lrl_W+yesterday_lrl_W)/yesterday_lrl_W,(today_lrl_bios+yesterday_lrl_bios)/yesterday_lrl_bios))
+    }
+    return lrs_list
+  } // done : (당일LRL + 전일LRL)/전일LRL
 
   def getLRS(today_lrl:(Double,Double), yesterday_lrl:(Double,Double)):(Double,Double)={
     return ((today_lrl._1+yesterday_lrl._1)/yesterday_lrl._1,(today_lrl._2+yesterday_lrl._2)/yesterday_lrl._2)

@@ -3,15 +3,16 @@
   */
 class Candle {
 
-  import Direction._
-
   var time:Double = 0
   var startPrice: Double = 0
   var endPrice: Double = 0
   var highPrice: Double = 0
   var lowPrice: Double = 0
-  var direction: Direction = Direction.STREADINESS // enum . 보합
-  var Solidity: Double = 0
+  var direction: Double = 0
+  var solidity: Double = 0
+  var volume:Double = 0
+  var transactionPrice:Double = 0
+  var dayCompare:Double = 0
 
   def setTime(time:Double):Unit={
     this.time = time
@@ -48,17 +49,38 @@ class Candle {
     return this.lowPrice
   }
 
-  def setDirection(direction:Direction):Unit={
+  def setDirection(direction:Double):Unit={
     this.direction = direction
   }
-  def getDirection:Direction={
+  def getDirection:Double={
     return this.direction
   }
 
   def setSolidity(solidiry:Double):Unit={
-    this.Solidity = solidiry
+    this.solidity = solidiry
   }
   def getSolidity:Double={
-    return this.Solidity
+    return this.solidity
+  }
+
+  def setTransactionVolume(vol:Double):Unit={
+    this.volume = vol
+  }
+  def getTransactionVolume:Double={
+    return this.volume
+  }
+
+  def setTransactionPrice(tran_P:Double):Unit={
+    this.transactionPrice = tran_P
+  }
+  def getTransactionPrice:Double={
+    return this.transactionPrice
+  }
+
+  def setDayCompare(day_C:Double):Unit={
+    this.dayCompare = day_C
+  }
+  def getDayCompare:Double={
+    return this.dayCompare
   }
 }

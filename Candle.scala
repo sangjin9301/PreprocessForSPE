@@ -3,7 +3,7 @@
   */
 class Candle {
 
-  var time:Double = 0
+  var time:String = ""
   var startPrice: Double = 0
   var endPrice: Double = 0
   var highPrice: Double = 0
@@ -14,10 +14,10 @@ class Candle {
   var transactionPrice:Double = 0
   var dayCompare:Double = 0
 
-  def setTime(time:Double):Unit={
+  def setTime(time:String):Unit={
     this.time = time
   }
-  def getTime:Double={
+  def getTime:String={
     return this.time
   }
 

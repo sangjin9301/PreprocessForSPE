@@ -37,7 +37,7 @@ class Accessor(path:String) {
 
     arr.foreach(line => {
       var candle = new Candle
-      candle.setTime(line(0).toDouble)
+      candle.setTime(line(0))
       candle.setStartPrice(line(1).toDouble)
       candle.setHighPrice(line(2).toDouble)
       candle.setLowPrice(line(3).toDouble)
@@ -53,17 +53,20 @@ class Accessor(path:String) {
   }
 
   // todo
-  def writeData(out_path:String,fileName:String):Unit={
-    val fileName = out_path + "/" + fileName + ".csv"
+  def writeData(out_path:String, fileName:String):Unit={
+
     val file = new File(out_path)
     if (!file.exists) {
       file.mkdirs()
     }
-    var writer = new FileWriter(fileName)
+
+    val whole_path = out_path + "/" + fileName + ".csv"
+    var writer = new FileWriter(whole_path)
 
     var sb = new StringBuilder
     mkIndex(toCandle(getData)).foreach( day_data =>{
       day_data.foreach( data =>{
+        println("data :" + data)
         sb.append(data)
         sb.append(",")
       })
@@ -133,9 +136,9 @@ class Accessor(path:String) {
       data_arr+=candle_list.get(i).getDayCompare.toString
       data_arr+=candle_list.get(i).getSolidity.toString
       data_arr+=ma_5.get(i).toString
-      data_arr+=ma_20.toString
-      data_arr+=ma_60.toString
-      data_arr+=ma_120.toString
+      data_arr+=ma_20.get(i).toString
+      data_arr+=ma_60.get(i).toString
+      data_arr+=ma_120.get(i).toString
       data_arr+=golden_5.toString
       data_arr+=golden_20.toString
       data_arr+=golden_60.toString

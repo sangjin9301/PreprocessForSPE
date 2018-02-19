@@ -439,5 +439,14 @@ class IndexMaker {
     return slowD_list
   }
 
+  def getRateOfInvestment(chart:util.LinkedList[Candle]):util.LinkedList[Double]={
+    var ROI_list = new util.LinkedList[Double]
+    ROI_list.add(0)
+    for(i <- 1 until chart.size){
+      ROI_list.add((chart.get(i).getEndPrice-chart.get(i-1).getEndPrice)/(chart.get(i-1).getEndPrice)*100)
+    }
+    return ROI_list
+  }
+
 
 }

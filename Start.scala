@@ -1,11 +1,39 @@
+import java.io.{BufferedWriter, File, FileOutputStream, OutputStreamWriter}
+import java.util
+
 /**
   * Created by SANGJIN-NAM on 2018-01-18.
   */
 object Start {
   def main(args: Array[String]): Unit = {
-    var Input_file_paht = "D:/SPE_DATA/candleChart/A000020.csv"
+
+    var input_file_path = "D:/SPE_DATA/candleChart/"
     var output_dir_path = "D:/SPE_DATA/DATA"
     var output_file_name = "new_A000020"
-    new Accessor(Input_file_paht).writeData(output_dir_path, output_file_name)
+    var file_list = new util.LinkedList[String]
+
+    var dir = new File(input_file_path)
+    if(dir.exists() == false) {
+      println("입력 디렉토리 경로가 존재하지 않습니다.")
+      return;
+    }
+
+    visitAllFiles(file_list, dir)
+
+    file_list.forEach(fileName => {
+      new Accessor(input_file_path+fileName).writeData(output_dir_path, "new_"+fileName)
+    })
+
+  }
+
+  def visitAllFiles(files:util.LinkedList[String], dir:File):Unit={
+    if(dir.isDirectory){
+      var children = dir.listFiles
+      children.foreach(file => {visitAllFiles(files, file)})
+    }
+    else{
+      files.add(dir.getName)
+      println(dir.getName)
+    }
   }
 }

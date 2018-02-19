@@ -66,7 +66,7 @@ class Accessor(path:String) {
     var sb = new StringBuilder
     mkIndex(toCandle(getData)).foreach( day_data =>{
       day_data.foreach( data =>{
-        println("data :" + data)
+        println("...")
         sb.append(data)
         sb.append(",")
       })
@@ -118,12 +118,15 @@ class Accessor(path:String) {
     var TRIX_list = maker.getTRIX(EMA_3_list)
     var Sig_list = maker.getTRIX_Sig(TRIX_list)
     //Stochastics
-    var k_list = maker.get_perK(candle_list)
-    var d_list = maker.get_perD(k_list)
-    var slow_k_list = maker.get_Slow_perK(d_list)
+//    var k_list = maker.get_perK(candle_list)
+//    var d_list = maker.get_perD(k_list)
+//    var slow_k_list = maker.get_Slow_perK(d_list)
+
+    //Reward
+    var ROI_list = maker.getRateOfInvestment(candle_list)
 
     var whole_data = new ArrayBuffer[Array[String]]
-    for( i <- 0 to candle_list.size-1 ){
+    for( i <- 8 to candle_list.size-1 ){
       var data_arr = new ArrayBuffer[String]
       data_arr+=candle_list.get(i).getTime.toString
       data_arr+=candle_list.get(i).getStartPrice.toString
@@ -166,14 +169,13 @@ class Accessor(path:String) {
       data_arr+=EMA_3_list.get(i).toString
       data_arr+=TRIX_list.get(i).toString
       data_arr+=Sig_list.get(i).toString
-      data_arr+=k_list.get(i).toString
-      data_arr+=d_list.get(i).toString
-      data_arr+=slow_k_list.get(i).toString
+//      data_arr+=k_list.get(i).toString
+//      data_arr+=d_list.get(i).toString
+//      data_arr+=slow_k_list.get(i).toString
+      data_arr+=ROI_list.get(i).toString
       whole_data+=data_arr.toArray
     }
     return whole_data.toArray
   }
-
-
 
 }

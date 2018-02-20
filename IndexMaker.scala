@@ -29,23 +29,23 @@ class IndexMaker {
   }
 
   //단기가 장기를 상향으로 돌파
-  def IsGoldenCross(short: util.LinkedList[Double], long: util.LinkedList[Double]): Boolean = {
+  def IsGoldenCross(short: util.LinkedList[Double], long: util.LinkedList[Double]): Int = {
     for (i <- 1 to short.size - 1) {
       if (short.get(i - 1) < long.get(i - 1)) {
-        if (short.get(i) > long.get(i)) return true
+        if (short.get(i) > long.get(i)) return 1
       }
     }
-    return false
+    return 0
   }
 
   //단기가 장기를 하향으로 돌파
-  def IsDeadCross(short: util.LinkedList[Double], long: util.LinkedList[Double]): Boolean = {
+  def IsDeadCross(short: util.LinkedList[Double], long: util.LinkedList[Double]): Int = {
     for (i <- 1 to short.size - 1) {
       if (short.get(i - 1) > long.get(i - 1)) {
-        if (short.get(i) < long.get(i)) return true
+        if (short.get(i) < long.get(i)) return 1
       }
     }
-    return false
+    return 0
   }
 
   def getDisparity(chart: util.LinkedList[Candle], MA: util.LinkedList[Double]): util.LinkedList[Double] = {
@@ -441,10 +441,10 @@ class IndexMaker {
 
   def getRateOfInvestment(chart:util.LinkedList[Candle]):util.LinkedList[Double]={
     var ROI_list = new util.LinkedList[Double]
-    ROI_list.add(0)
     for(i <- 1 until chart.size){
       ROI_list.add((chart.get(i).getEndPrice-chart.get(i-1).getEndPrice)/(chart.get(i-1).getEndPrice)*100)
     }
+    ROI_list.add(0)
     return ROI_list
   }
 

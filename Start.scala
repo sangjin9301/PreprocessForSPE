@@ -7,9 +7,9 @@ import java.util
 object Start {
   def main(args: Array[String]): Unit = {
 
-    var input_file_path = "D:/SPE_DATA/candleChart/"
-    var output_dir_path = "D:/SPE_DATA/DATA"
-    var output_file_name = "new_A000020"
+    var input_file_path = "D:/SPE_DATA/A005010_A010000/"
+    var output_dir_path = "D:/SPE_DATA/DATA/A005010_A010000"
+//    var output_file_name = "new_A000020"
     var file_list = new util.LinkedList[String]
 
     var dir = new File(input_file_path)

@@ -128,7 +128,7 @@ class Accessor(path:String) {
     var whole_data = new ArrayBuffer[Array[String]]
     for( i <- 8 to candle_list.size-1 ){
       var data_arr = new ArrayBuffer[String]
-      data_arr+=candle_list.get(i).getTime.toString
+//      data_arr+=candle_list.get(i).getTime.toString
       data_arr+=candle_list.get(i).getStartPrice.toString
       data_arr+=candle_list.get(i).getHighPrice.toString
       data_arr+=candle_list.get(i).getLowPrice.toString

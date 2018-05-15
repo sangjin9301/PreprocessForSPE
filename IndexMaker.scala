@@ -441,10 +441,9 @@ class IndexMaker {
 
   def getRateOfInvestment(chart:util.LinkedList[Candle]):util.LinkedList[Double]={
     var ROI_list = new util.LinkedList[Double]
-    for(i <- 1 until chart.size){
-      ROI_list.add((chart.get(i).getEndPrice-chart.get(i-1).getEndPrice)/(chart.get(i-1).getEndPrice)*100)
+    for(i <- 0 until chart.size){
+      ROI_list.add((chart.get(i).getEndPrice-chart.get(i).getStartPrice)/(chart.get(i).getStartPrice)*100)
     }
-    ROI_list.add(0)
     return ROI_list
   }
 
